@@ -890,6 +890,8 @@ try:
         #st.dataframe(df)
 
         st.bar_chart(df)
+        st.vega_lite_chart(df)
+        
 
 
 
