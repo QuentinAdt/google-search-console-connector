@@ -846,6 +846,9 @@ with tab1:
 
                 nb_rows = 0
 
+                max_impressions_found = 0
+                max_clics_found = 0
+                
                 for index, row in df.iterrows():
                     #st.write(row['query'], row['clicks'])
                     if(int(row['impressions'])>max_impressions_found):
