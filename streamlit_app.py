@@ -913,7 +913,7 @@ with tab1:
 
                 st.bar_chart(df)
 
-                """
+
 
     except ValueError as ve:
 
