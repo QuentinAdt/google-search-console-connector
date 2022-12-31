@@ -8,18 +8,10 @@ import searchconsole
 from apiclient import discovery
 from google_auth_oauthlib.flow import Flow
 
-# imports for aggrid
-from st_aggrid import AgGrid
-from st_aggrid import AgGrid
-from st_aggrid.grid_options_builder import GridOptionsBuilder
-from st_aggrid.shared import JsCode
-from st_aggrid import GridUpdateMode, DataReturnMode
 
 # all other imports
 import os
 from streamlit_elements import Elements
-
-###############################################################################
 
 # The code below is for the layout of the page
 if "widen" not in st.session_state:
@@ -31,15 +23,9 @@ st.set_page_config(
     layout=layout, page_title="CTR - Google Search Console Connector", page_icon="🔌"
 )
 
-###############################################################################
-
 # row limit
-
 #RowCap = 25000
 RowCap =  st.slider('Nombre de résultats API à récupérer',10, 100000,25000)
-
-
-###############################################################################
 
 st.sidebar.image("logo.png", width=290)
 
@@ -808,7 +794,19 @@ try:
             "9->10": 0,
             "10 et +": 0
         }
-
+        queries_by_position = {
+            "0->1": 0,
+            "1->2": 0,
+            "2->3": 0,
+            "3->4": 0,
+            "4->5": 0,
+            "5->6": 0,
+            "6->7": 0,
+            "7->8": 0,
+            "8->9": 0,
+            "9->10": 0,
+            "10 et +": 0
+        }
         nb_rows = 0
 
         max_impressions_found = 0
@@ -836,36 +834,47 @@ try:
                     if position <= 1:
                         clics_by_position["0->1"]       += clics
                         impressions_by_position["0->1"] += impressions
+                        queries_by_position["0->1"]     += 1
                     elif 1 < position <= 2:
                         clics_by_position["1->2"]       += clics
                         impressions_by_position["1->2"] += impressions
+                        queries_by_position["1->2"]     += 1
                     elif 2 < position <= 3:
-                        clics_by_position["2->3"] += clics
+                        clics_by_position["2->3"]       += clics
                         impressions_by_position["2->3"] += impressions
+                        queries_by_position["2->3"]     += 1
                     elif 3 < position <= 4:
-                        clics_by_position["3->4"] += clics
+                        clics_by_position["3->4"]       += clics
                         impressions_by_position["3->4"] += impressions
+                        queries_by_position["3->4"]     += 1
                     elif 4 < position <= 5:
-                        clics_by_position["4->5"] += clics
+                        clics_by_position["4->5"]       += clics
                         impressions_by_position["4->5"] += impressions
+                        queries_by_position["4->5"]     += 1
                     elif 5 < position <= 6:
-                        clics_by_position["5->6"] += clics
+                        clics_by_position["5->6"]       += clics
                         impressions_by_position["5->6"] += impressions
+                        queries_by_position["5->6"]     += 1
                     elif 6 < position <= 7:
-                        clics_by_position["6->7"] += clics
+                        clics_by_position["6->7"]       += clics
                         impressions_by_position["6->7"] += impressions
+                        queries_by_position["6->7"]     += 1
                     elif 7 < position <= 8:
-                        clics_by_position["7->8"] += clics
+                        clics_by_position["7->8"]       += clics
                         impressions_by_position["7->8"] += impressions
+                        queries_by_position["7->8"]     += 1
                     elif 8 < position <= 9:
-                        clics_by_position["8->9"] += clics
+                        clics_by_position["8->9"]       += clics
                         impressions_by_position["8->9"] += impressions
+                        queries_by_position["8->9"]     += 1
                     elif 9 < position <= 10:
-                        clics_by_position["9->10"] += clics
+                        clics_by_position["9->10"]       += clics
                         impressions_by_position["9->10"] += impressions
+                        queries_by_position["9->10"]     += 1
                     else:
-                        clics_by_position["10 et +"] += clics
+                        clics_by_position["10 et +"]       += clics
                         impressions_by_position["10 et +"] += impressions
+                        queries_by_position["9->10"]       += 1
                     # Incrémentation du compteur du nombre de lignes
                     nb_rows += 1
 
@@ -877,6 +886,7 @@ try:
             else:
                 ctr_by_position[position] = 0
         df = pd.DataFrame.from_dict(ctr_by_position, orient='index', columns=['CTR par sum total'])
+        df['Queries_by_position'] = queries_by_position
         #st.dataframe(df)
 
         st.bar_chart(df)
