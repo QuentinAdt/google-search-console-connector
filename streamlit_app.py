@@ -806,7 +806,8 @@ with tab1:
                     print(row['query'], row['clicks'])
 
                 st.dataframe(df, height=500)
-"""
+
+                """
                 # Initialisation du dictionnaire avec les tranches de position comme clés et 0 comme valeur
                 ctr_by_position = {
                     "0->1": 0,
@@ -935,7 +936,7 @@ with tab1:
 
                         st.bar_chart(df)
 
-"""
+                """
 
     except ValueError as ve:
 
