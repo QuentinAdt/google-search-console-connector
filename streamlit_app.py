@@ -800,14 +800,9 @@ with tab1:
                 )
 
                 st.caption("")
+                #st.dataframe(df, height=500)
                 st.write("OOOOOOO")
 
-                for index, row in df.iterrows():
-                    st.write(row['query'], row['clicks'])
-
-                st.dataframe(df, height=500)
-
-                """
                 # Initialisation du dictionnaire avec les tranches de position comme clés et 0 comme valeur
                 ctr_by_position = {
                     "0->1": 0,
@@ -851,90 +846,72 @@ with tab1:
 
                 nb_rows = 0
 
-                if csv is not None:
-                    try:
-                        data = pd.read_csv(csv)
-                        data.to_csv('data_ctr_by_position.csv', index=False)
-                    except Exception as e:
-                        print(e)
+                for index, row in df.iterrows():
+                    #st.write(row['query'], row['clicks'])
+                    if(int(row['impressions'])>max_impressions_found):
+                        max_impressions_found = int(row['impressions'])
+                    if(int(row['clicks'])>max_clics_found):
+                        max_clics_found = int(row['clicks'])
 
-                    max_impressions_found = 0
-                    max_clics_found = 0
+                slider_clic = st.slider('Nombre de clics minimum par mot clé à analyser', 0, 100)
+                slider_max_clics = st.slider('Nombre de clics maximum par mot clé à analyser', 0, max_clics_found,max_clics_found)
 
-                    with open('data_ctr_by_position.csv', 'r') as file:
-                        reader = csv.DictReader(file)
-                        
-                        # Passe la première ligne (en-tête)
-                        #next(reader)
+                slider_max_impressions = st.slider('Nombre d\'impressions maximum par mot clé à analyser', 0, max_impressions_found,max_impressions_found)
 
-                        for row in reader:
-                            if(int(row['Impressions'])>max_impressions_found):
-                                max_impressions_found = int(row['Impressions'])
-                            if(int(row['Clics'])>max_clics_found):
-                                max_clics_found = int(row['Clics'])
-
-                        slider_clic = st.slider('Nombre de clics minimum par mot clé à analyser', 0, 100)
-                        slider_max_clics = st.slider('Nombre de clics maximum par mot clé à analyser', 0, max_clics_found,max_clics_found)
-
-                        slider_max_impressions = st.slider('Nombre d\'impressions maximum par mot clé à analyser', 0, max_impressions_found,max_impressions_found)
-
-                        with open('data_ctr_by_position.csv', 'r') as file:
-                            reader = csv.DictReader(file)
-                            next(reader)
-                            for row in reader:
-                                if row['Impressions']:
-                                    position = float(row['Position'].replace(',', '.'))
-                                    clics = int(row['Clics'])
-                                    impressions = int(row['Impressions'])
-                                    if(int(row['Clics'])>slider_clic and int(row['Clics'])<slider_max_clics \
-                                        and int(row['Impressions'])<slider_max_impressions):
-                                        if position <= 1:
-                                            clics_by_position["0->1"]       += clics
-                                            impressions_by_position["0->1"] += impressions
-                                        elif 1 < position <= 2:
-                                            clics_by_position["1->2"]       += clics
-                                            impressions_by_position["1->2"] += impressions
-                                        elif 2 < position <= 3:
-                                            clics_by_position["2->3"] += clics
-                                            impressions_by_position["2->3"] += impressions
-                                        elif 3 < position <= 4:
-                                            clics_by_position["3->4"] += clics
-                                            impressions_by_position["3->4"] += impressions
-                                        elif 4 < position <= 5:
-                                            clics_by_position["4->5"] += clics
-                                            impressions_by_position["4->5"] += impressions
-                                        elif 5 < position <= 6:
-                                            clics_by_position["5->6"] += clics
-                                            impressions_by_position["5->6"] += impressions
-                                        elif 6 < position <= 7:
-                                            clics_by_position["6->7"] += clics
-                                            impressions_by_position["6->7"] += impressions
-                                        elif 7 < position <= 8:
-                                            clics_by_position["7->8"] += clics
-                                            impressions_by_position["7->8"] += impressions
-                                        elif 8 < position <= 9:
-                                            clics_by_position["8->9"] += clics
-                                            impressions_by_position["8->9"] += impressions
-                                        elif 9 < position <= 10:
-                                            clics_by_position["9->10"] += clics
-                                            impressions_by_position["9->10"] += impressions
-                                        else:
-                                            clics_by_position["10 et +"] += clics
-                                            impressions_by_position["10 et +"] += impressions
-                                        # Incrémentation du compteur du nombre de lignes
-                                        nb_rows += 1
-
-                        # Calcul du CTR moyen par tranche de position
-                        for position, clics in clics_by_position.items():
-                            impressions = impressions_by_position[position]
-                            if(impressions):
-                                ctr_by_position[position] = round(clics / impressions*100)
+                for index, row in df.iterrows():
+                    if row['impressions']:
+                        position = float(row['position']
+                        clics = int(row['clicks'])
+                        impressions = int(row['impressions'])
+                        if(int(row['clicks']) > slider_clic and int(row['clicks']) < slider_max_clics \
+                            and int(row['impressions']) < slider_max_impressions):
+                            if position <= 1:
+                                clics_by_position["0->1"]       += clics
+                                impressions_by_position["0->1"] += impressions
+                            elif 1 < position <= 2:
+                                clics_by_position["1->2"]       += clics
+                                impressions_by_position["1->2"] += impressions
+                            elif 2 < position <= 3:
+                                clics_by_position["2->3"] += clics
+                                impressions_by_position["2->3"] += impressions
+                            elif 3 < position <= 4:
+                                clics_by_position["3->4"] += clics
+                                impressions_by_position["3->4"] += impressions
+                            elif 4 < position <= 5:
+                                clics_by_position["4->5"] += clics
+                                impressions_by_position["4->5"] += impressions
+                            elif 5 < position <= 6:
+                                clics_by_position["5->6"] += clics
+                                impressions_by_position["5->6"] += impressions
+                            elif 6 < position <= 7:
+                                clics_by_position["6->7"] += clics
+                                impressions_by_position["6->7"] += impressions
+                            elif 7 < position <= 8:
+                                clics_by_position["7->8"] += clics
+                                impressions_by_position["7->8"] += impressions
+                            elif 8 < position <= 9:
+                                clics_by_position["8->9"] += clics
+                                impressions_by_position["8->9"] += impressions
+                            elif 9 < position <= 10:
+                                clics_by_position["9->10"] += clics
+                                impressions_by_position["9->10"] += impressions
                             else:
-                                ctr_by_position[position] = 0
-                        df = pd.DataFrame.from_dict(ctr_by_position, orient='index', columns=['CTR par sum total'])
-                        #st.dataframe(df)
+                                clics_by_position["10 et +"] += clics
+                                impressions_by_position["10 et +"] += impressions
+                            # Incrémentation du compteur du nombre de lignes
+                            nb_rows += 1
 
-                        st.bar_chart(df)
+                # Calcul du CTR moyen par tranche de position
+                for position, clics in clics_by_position.items():
+                    impressions = impressions_by_position[position]
+                    if(impressions):
+                        ctr_by_position[position] = round(clics / impressions*100)
+                    else:
+                        ctr_by_position[position] = 0
+                df = pd.DataFrame.from_dict(ctr_by_position, orient='index', columns=['CTR par sum total'])
+                #st.dataframe(df)
+
+                st.bar_chart(df)
 
                 """
 
