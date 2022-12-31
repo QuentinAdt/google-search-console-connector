@@ -831,11 +831,11 @@ try:
                 impressions = int(row['impressions'])
                 if(int(row['clicks']) > slider_clic and int(row['clicks']) < slider_max_clics \
                     and int(row['impressions']) < slider_max_impressions):
-                    if position <= 1:
+                    if position < 1:
                         clics_by_position["0->1"]       += clics
                         impressions_by_position["0->1"] += impressions
                         queries_by_position["0->1"]     += 1
-                    elif 1 < position <= 2:
+                    elif 1 <= position <= 2:
                         clics_by_position["1->2"]       += clics
                         impressions_by_position["1->2"] += impressions
                         queries_by_position["1->2"]     += 1
