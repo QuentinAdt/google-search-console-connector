@@ -886,12 +886,15 @@ try:
             else:
                 ctr_by_position[position] = 0
         df = pd.DataFrame.from_dict(ctr_by_position, orient='index', columns=['CTR par sum total'])
-        df['Queries_by_position'] = queries_by_position
-        #st.dataframe(df)
+        col1, col2 = st.columns(2)
+        with col1:
+            st.header("Graphique")
+            st.bar_chart(df)
 
-        st.bar_chart(df)
-        st.vega_lite_chart(df)
-        
+        with col2:
+            st.header("Data")
+            df['Queries_by_position'] = queries_by_position
+            st.dataframe(df)
 
 
 
