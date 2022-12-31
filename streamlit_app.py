@@ -799,38 +799,55 @@ with tab1:
                     mime="text/csv",
                 )
 
+                st.write("OOOOOOO")
                 st.caption("")
 
                 st.dataframe(df, height=500)
 
-            elif check_box:
+                # Initialisation du dictionnaire avec les tranches de position comme clés et 0 comme valeur
+                ctr_by_position = {
+                    "0->1": 0,
+                    "1->2": 0,
+                    "2->3": 0,
+                    "3->4": 0,
+                    "4->5": 0,
+                    "5->6": 0,
+                    "6->7": 0,
+                    "7->8": 0,
+                    "8->9": 0,
+                    "9->10": 0,
+                    "10 et +": 0
+                }
+                clics_by_position = {
+                    "0->1": 0,
+                    "1->2": 0,
+                    "2->3": 0,
+                    "3->4": 0,
+                    "4->5": 0,
+                    "5->6": 0,
+                    "6->7": 0,
+                    "7->8": 0,
+                    "8->9": 0,
+                    "9->10": 0,
+                    "10 et +": 0
+                }
+                impressions_by_position = {
+                    "0->1": 0,
+                    "1->2": 0,
+                    "2->3": 0,
+                    "3->4": 0,
+                    "4->5": 0,
+                    "5->6": 0,
+                    "6->7": 0,
+                    "7->8": 0,
+                    "8->9": 0,
+                    "9->10": 0,
+                    "10 et +": 0
+                }
 
-                df = df.reset_index()
+                nb_rows = 0
 
-                gb = GridOptionsBuilder.from_dataframe(df)
-                # enables pivoting on all columns, however i'd need to change ag grid to allow export of pivoted/grouped data, however it select/filters groups
-                gb.configure_default_column(
-                    enablePivot=True, enableValue=True, enableRowGroup=True
-                )
-                gb.configure_selection(selection_mode="multiple", use_checkbox=True)
-                gb.configure_side_bar()
-                gridOptions = gb.build()
-                st.info(
-                    f"""
-                            💡 Tip! Hold the '⇧ Shift' key when selecting rows to select multiple rows at once!
-                            """
-                )
 
-                response = AgGrid(
-                    df,
-                    gridOptions=gridOptions,
-                    enable_enterprise_modules=True,
-                    update_mode=GridUpdateMode.MODEL_CHANGED,
-                    data_return_mode=DataReturnMode.FILTERED_AND_SORTED,
-                    height=1000,
-                    fit_columns_on_grid_load=True,
-                    configure_side_bar=True,
-                )
 
     except ValueError as ve:
 
@@ -847,33 +864,5 @@ with tab2:
     st.write("")
 
     st.write(
-        """
-
-    #### About this app
-
-    * ✔️ One-click connect to the [Google Search Console API](https://developers.google.com/webmaster-tools)
-    * ✔️ Easily traverse your account hierarchy
-    * ✔️ Go beyond the [1K row UI limit](https://www.gsqi.com/marketing-blog/how-to-bulk-export-search-features-from-gsc/)
-    * ✔️ Enrich your data querying with multiple dimensions layers and extra filters!
-
-    ✍️ You can read the blog post [here](https://blog.streamlit.io/p/e89fd54e-e6cd-4e00-8a59-39e87536b260/) for more information.
-
-    #### Going beyond the `25K` row limit
-
-    * There's a `25K` row limit per API call on the [Cloud](https://streamlit.io/cloud) version to prevent crashes.
-    * You can remove that limit by forking this code and adjusting the `RowCap` variable in the `streamlit_app.py` file
-
-    #### Kudos
-
-    This app relies on Josh Carty's excellent [Search Console Python wrapper](https://github.com/joshcarty/google-searchconsole). Big kudos to him for creating it!
-
-    #### Questions, comments, or report a 🐛?
-
-    * If you have any questions or comments, please DM [me](https://twitter.com/DataChaz). Alternatively, you can ask the [Streamlit community](https://discuss.streamlit.io).
-    * If you find a bug, please raise an issue in [Github](https://github.com/CharlyWargnier/google-search-console-connector/pulls).
-
-    #### Known bugs
-    * You can filter any dimension in the table even if the dimension hasn't been pre-selected. I'm working on a fix for this.
-    
-    """
+        """ https://github.com/CharlyWargnier/google-search-console-connector/pulls """
     )
