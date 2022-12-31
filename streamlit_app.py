@@ -803,7 +803,7 @@ with tab1:
                 st.write("OOOOOOO")
 
                 for index, row in df.iterrows():
-                    print(row['query'], row['clicks'])
+                    st.write(row['query'], row['clicks'])
 
                 st.dataframe(df, height=500)
 
