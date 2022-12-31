@@ -860,7 +860,7 @@ with tab1:
 
                 for index, row in df.iterrows():
                     if row['impressions']:
-                        position = float(row['position']
+                        position = float(row['position'])
                         clics = int(row['clicks'])
                         impressions = int(row['impressions'])
                         if(int(row['clicks']) > slider_clic and int(row['clicks']) < slider_max_clics \
