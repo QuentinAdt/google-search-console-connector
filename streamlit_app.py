@@ -916,6 +916,7 @@ try:
         qa = pd.DataFrame(list(query_analysables.items()))
         qa.columns =['Requête','Trafic potentiel']
         st.dataframe(qa)
+        st.dataframe(df)
 
         #CTR par position - Graphique
         st.header("Graphique")
