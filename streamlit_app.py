@@ -114,15 +114,54 @@ try:
 
             col1, col2, col3 = st.columns(3)
 
-            with col1:
-                dimension = "query"
-                filter_page_or_query = st.selectbox(
-                    "Dimension to filter #1",
-                    ("query", "page", "device", "searchAppearance", "country"),
-                    help="""
-                    You can choose to filter dimensions and apply filters before executing a query.
-                    """,
-                )
+
+    if st.session_state.my_token_received == True:
+
+        @st.experimental_singleton
+        def get_account_site_list_and_webproperty(token):
+            flow.fetch_token(code=token)
+            credentials = flow.credentials
+            service = discovery.build(
+                serviceName="webmasters",
+                version="v3",
+                credentials=credentials,
+                cache_discovery=False,
+            )
+
+            account = searchconsole.account.Account(service, credentials)
+            site_list = service.sites().list().execute()
+            return account, site_list
+
+        account, site_list = get_account_site_list_and_webproperty(
+            st.session_state.my_token_input
+        )
+
+        first_value = list(site_list.values())[0]
+
+        lst = []
+        for dicts in first_value:
+            a = dicts.get("siteUrl")
+            lst.append(a)
+
+        if lst:
+
+            container3.info("✔️ GSC credentials OK!")
+
+            with st.form(key="my_form2"):
+
+                webpropertiesNEW = st.selectbox("Select web property", lst)
+
+                col1, col2, col3 = st.columns(3)
+
+                with col1:
+                    dimension = "query"
+                    filter_page_or_query = st.selectbox(
+                        "Dimension to filter #1",
+                        ("query", "page", "device", "searchAppearance", "country"),
+                        help="""
+                        You can choose to filter dimensions and apply filters before executing a query.
+                        """,
+                    )
 
 
                 with col2:
@@ -179,281 +218,6 @@ try:
             submit_button = st.form_submit_button(
                 label="Fetch GSC API data", on_click=charly_form_callback
             )
-
-    if st.session_state.my_token_received == True:
-
-        @st.experimental_singleton
-        def get_account_site_list_and_webproperty(token):
-            flow.fetch_token(code=token)
-            credentials = flow.credentials
-            service = discovery.build(
-                serviceName="webmasters",
-                version="v3",
-                credentials=credentials,
-                cache_discovery=False,
-            )
-
-            account = searchconsole.account.Account(service, credentials)
-            site_list = service.sites().list().execute()
-            return account, site_list
-
-        account, site_list = get_account_site_list_and_webproperty(
-            st.session_state.my_token_input
-        )
-
-        first_value = list(site_list.values())[0]
-
-        lst = []
-        for dicts in first_value:
-            a = dicts.get("siteUrl")
-            lst.append(a)
-
-        if lst:
-
-            container3.info("✔️ GSC credentials OK!")
-
-            with st.form(key="my_form2"):
-
-                webpropertiesNEW = st.selectbox("Select web property", lst)
-
-                col1, col2, col3 = st.columns(3)
-
-                with col1:
-                    dimension = st.selectbox(
-                        "Dimension",
-                        (
-                            "query",
-                            "page",
-                            "date",
-                            "device",
-                            "searchAppearance",
-                            "country",
-                        ),
-                        help="Choose your top dimension",
-                    )
-
-                with col2:
-                    nested_dimension = st.selectbox(
-                        "Nested dimension",
-                        (
-                            "none",
-                            "query",
-                            "page",
-                            "date",
-                            "device",
-                            "searchAppearance",
-                            "country",
-                        ),
-                        help="Choose a nested dimension",
-                    )
-
-                with col3:
-                    nested_dimension_2 = st.selectbox(
-                        "Nested dimension 2",
-                        (
-                            "none",
-                            "query",
-                            "page",
-                            "date",
-                            "device",
-                            "searchAppearance",
-                            "country",
-                        ),
-                        help="Choose a second nested dimension",
-                    )
-
-                st.write("")
-
-                col1, col2 = st.columns(2)
-
-                with col1:
-                    search_type = st.selectbox(
-                        "Search type",
-                        ("web", "news", "video", "googleNews", "image"),
-                        help="""
-                    Specify the search type you want to retrieve
-                    -   **Web**: Results that appear in the All tab. This includes any image or video results shown in the All results tab.
-                    -   **Image**: Results that appear in the Images search results tab.
-                    -   **Video**: Results that appear in the Videos search results tab.
-                    -   **News**: Results that show in the News search results tab.
-
-                    """,
-                    )
-
-                with col2:
-                    timescale = st.selectbox(
-                        "Date range",
-                        (
-                            "Last 7 days",
-                            "Last 30 days",
-                            "Last 3 months",
-                            "Last 6 months",
-                            "Last 12 months",
-                            "Last 16 months",
-                        ),
-                        index=0,
-                        help="Specify the date range",
-                    )
-
-                    if timescale == "Last 7 days":
-                        timescale = -7
-                    elif timescale == "Last 30 days":
-                        timescale = -30
-                    elif timescale == "Last 3 months":
-                        timescale = -91
-                    elif timescale == "Last 6 months":
-                        timescale = -182
-                    elif timescale == "Last 12 months":
-                        timescale = -365
-                    elif timescale == "Last 16 months":
-                        timescale = -486
-
-                st.write("")
-
-                with st.expander("✨ Advanced Filters", expanded=False):
-
-                    col1, col2, col3 = st.columns(3)
-
-                    with col1:
-                        filter_page_or_query = st.selectbox(
-                            "Dimension to filter #1",
-                            (
-                                "query",
-                                "page",
-                                "device",
-                                "searchAppearance",
-                                "country",
-                            ),
-                            help="You can choose to filter dimensions and apply filters before executing a query.",
-                        )
-
-                    with col2:
-                        filter_type = st.selectbox(
-                            "Filter type",
-                            (
-                                "contains",
-                                "equals",
-                                "notContains",
-                                "notEquals",
-                                "includingRegex",
-                                "excludingRegex",
-                            ),
-                            help="Note that if you use Regex in your filter, you must follow `RE2` syntax.",
-                        )
-
-                    with col3:
-                        filter_keyword = st.text_input(
-                            "Keyword(s) to filter ",
-                            "",
-                            help="Add the keyword(s) you want to filter",
-                        )
-
-                    with col1:
-                        filter_page_or_query2 = st.selectbox(
-                            "Dimension to filter #2",
-                            (
-                                "query",
-                                "page",
-                                "device",
-                                "searchAppearance",
-                                "country",
-                            ),
-                            key="filter_page_or_query2",
-                            help="You can choose to filter dimensions and apply filters before executing a query.",
-                        )
-
-                    with col2:
-                        filter_type2 = st.selectbox(
-                            "Filter type",
-                            (
-                                "contains",
-                                "equals",
-                                "notContains",
-                                "notEquals",
-                                "includingRegex",
-                                "excludingRegex",
-                            ),
-                            key="filter_type2",
-                            help="Note that if you use Regex in your filter, you must follow `RE2` syntax.",
-                        )
-
-                    with col3:
-                        filter_keyword2 = st.text_input(
-                            "Keyword(s) to filter ",
-                            "",
-                            key="filter_keyword2",
-                            help="Add the keyword(s) you want to filter",
-                        )
-
-                    with col1:
-                        filter_page_or_query3 = st.selectbox(
-                            "Dimension to filter #3",
-                            (
-                                "query",
-                                "page",
-                                "device",
-                                "searchAppearance",
-                                "country",
-                            ),
-                            key="filter_page_or_query3",
-                            help="You can choose to filter dimensions and apply filters before executing a query.",
-                        )
-
-                    with col2:
-                        filter_type3 = st.selectbox(
-                            "Filter type",
-                            (
-                                "contains",
-                                "equals",
-                                "notContains",
-                                "notEquals",
-                                "includingRegex",
-                                "excludingRegex",
-                            ),
-                            key="filter_type3",
-                            help="Note that if you use Regex in your filter, you must follow `RE2` syntax.",
-                        )
-
-                    with col3:
-                        filter_keyword3 = st.text_input(
-                            "Keyword(s) to filter ",
-                            "",
-                            key="filter_keyword3",
-                            help="Add the keyword(s) you want to filter",
-                        )
-
-                    st.write("")
-
-                submit_button = st.form_submit_button(
-                    label="Fetch GSC API data", on_click=charly_form_callback
-                )
-
-            if (nested_dimension != "none") and (nested_dimension_2 != "none"):
-
-                if (
-                    (dimension == nested_dimension)
-                    or (dimension == nested_dimension_2)
-                    or (nested_dimension == nested_dimension_2)
-                ):
-                    st.warning(
-                        "🚨 Dimension and nested dimensions cannot be the same, please make sure you choose unique dimensions."
-                    )
-                    st.stop()
-
-                else:
-                    pass
-
-            elif (nested_dimension != "none") and (nested_dimension_2 == "none"):
-                if dimension == nested_dimension:
-                    st.warning(
-                        "🚨 Dimension and nested dimensions cannot be the same, please make sure you choose unique dimensions."
-                    )
-                    st.stop()
-                else:
-                    pass
-
-            else:
-                pass
 
         def get_search_console_data(webproperty):
             if webproperty is not None:
