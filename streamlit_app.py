@@ -915,7 +915,7 @@ try:
 
 
         #Trafic potentiel par requête
-        affiche_tous_les_keywords = st.checkbox('Filtrer les keywords à analyser')
+        affiche_tous_les_keywords = st.checkbox('Afficher les gains de keywords potentiels sans filtrer')
         if affiche_tous_les_keywords:    
             query_analysables = {}
             list_keywords = st.text_area('Liste de mots clés à analyser en priorité')
