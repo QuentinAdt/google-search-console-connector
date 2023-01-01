@@ -937,7 +937,7 @@ try:
                             query_analysables[row['query']] = diff_trafic
 
             qa = pd.DataFrame(list(query_analysables.items()))
-            qa.columns =['Requête','Potentiel Gain trafic ']
+            qa.columns =['Requête','Potentiel Gain trafic']
             qa = qa.sort_values(by=['Potentiel Gain trafic'], ascending=False)
             st.dataframe(qa)
 
