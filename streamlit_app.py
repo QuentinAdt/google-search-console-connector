@@ -901,7 +901,8 @@ try:
 
         #Trafic potentiel par requête
         query_analysables = {}
-        list_keywords = st.text_area('Liste de mots clés à analyser')
+        list_keywords = st.text_area('Liste de mots clés à analyser en priorité')
+
         list_keywords_splited = list_keywords.split('\n')
         for kw in list_keywords_splited:
             for index, row in df.iterrows():
