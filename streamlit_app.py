@@ -841,9 +841,14 @@ try:
 
         slider_clic = st.slider('Nombre de clics minimum par mot clé à analyser', 0, 100)
         slider_max_clics = st.slider('Nombre de clics maximum par mot clé à analyser', 0, max_clics_found,max_clics_found)
-
         slider_max_impressions = st.slider('Nombre d\'impressions maximum par mot clé à analyser', 0, max_impressions_found,max_impressions_found)
 
+        affiner = st.checkbox('Affiner volumes de données à analyser')
+        if affiner:
+            slider_clic = st.slider('Nombre de clicks minimum par mot clé à analyser', 0, 100)
+            slider_max_clicks = st.slider('Nombre de clicks maximum par mot clé à analyser', 0, max_clicks_found,max_clicks_found)
+            slider_max_impressions = st.slider('Nombre d\'impressions maximum par mot clé à analyser', 0, max_impressions_found,max_impressions_found)
+        
         #st.bar_chart(df)
         for index, row in df.iterrows():
             if row['impressions']:
@@ -910,28 +915,30 @@ try:
 
 
         #Trafic potentiel par requête
-        query_analysables = {}
-        list_keywords = st.text_area('Liste de mots clés à analyser en priorité')
+        filtrer_keywords = st.checkbox('Filtrer volumes de données à analyser')
+        if filtrer_keywords:    
+            query_analysables = {}
+            list_keywords = st.text_area('Liste de mots clés à analyser en priorité')
 
-        list_keywords_splited = list_keywords.split('\n')
-        for kw in list_keywords_splited:
-            for index, row in df.iterrows():
-                diff_trafic = 0
-                if(row['query'] in [kw]):
-                    position = float(row['position'])
-                    clicks = int(row['clicks'])
-                    impressions = int(row['impressions'])
-                    diff_trafic = round(impressions * ctr_by_position["1->2"] / 100 - clicks)
-                    if(position < 2):
-                        query_analysables[row['query']] = 0
-                    elif diff_trafic < 0:
-                        query_analysables[row['query']] = 0
-                    else:
-                         query_analysables[row['query']] = diff_trafic
+            list_keywords_splited = list_keywords.split('\n')
+            for kw in list_keywords_splited:
+                for index, row in df.iterrows():
+                    diff_trafic = 0
+                    if(row['query'] in [kw]):
+                        position = float(row['position'])
+                        clicks = int(row['clicks'])
+                        impressions = int(row['impressions'])
+                        diff_trafic = round(impressions * ctr_by_position["1->2"] / 100 - clicks)
+                        if(position < 2):
+                            query_analysables[row['query']] = 0
+                        elif diff_trafic < 0:
+                            query_analysables[row['query']] = 0
+                        else:
+                            query_analysables[row['query']] = diff_trafic
 
-        qa = pd.DataFrame(list(query_analysables.items()))
-        qa.columns =['Requête','Potentiel Gain trafic ']
-        st.dataframe(qa)
+            qa = pd.DataFrame(list(query_analysables.items()))
+            qa.columns =['Requête','Potentiel Gain trafic ']
+            st.dataframe(qa)
 
         #2e tableau avec toutes les opportunités liées à ce KW
         toutes_requetes = {}
