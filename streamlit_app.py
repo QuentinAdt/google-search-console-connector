@@ -116,67 +116,14 @@ try:
 
             with col1:
                 dimension = "query"
-
-            with col2:
-                search_type = st.selectbox(
-                    "Search type",
-                    ("web", "video", "image", "news", "googleNews"),
+                filter_page_or_query = st.selectbox(
+                    "Dimension to filter #1",
+                    ("query", "page", "device", "searchAppearance", "country"),
                     help="""
-                    Specify the search type you want to retrieve
-                    -   **Web**: Results that appear in the All tab. This includes any image or video results shown in the All results tab.
-                    -   **Image**: Results that appear in the Images search results tab.
-                    -   **Video**: Results that appear in the Videos search results tab.
-                    -   **News**: Results that show in the News search results tab.
-
+                    You can choose to filter dimensions and apply filters before executing a query.
                     """,
                 )
 
-
-            with col3:
-                timescale = st.selectbox(
-                    "Date range",
-                    (
-                        "Last 7 days",
-                        "Last 30 days",
-                        "Last 3 months",
-                        "Last 6 months",
-                        "Last 12 months",
-                        "Last 16 months",
-                    ),
-                    index=0,
-                    help="Specify the date range",
-                )
-
-                if timescale == "Last 7 days":
-                    timescale = -7
-                elif timescale == "Last 30 days":
-                    timescale = -30
-                elif timescale == "Last 3 months":
-                    timescale = -91
-                elif timescale == "Last 6 months":
-                    timescale = -182
-                elif timescale == "Last 12 months":
-                    timescale = -365
-                elif timescale == "Last 16 months":
-                    timescale = -486
-
-            st.write("")
-
-
-            st.write("")
-
-            with st.expander("✨ Advanced Filters", expanded=False):
-
-                col1, col2, col3 = st.columns(3)
-
-                with col1:
-                    filter_page_or_query = st.selectbox(
-                        "Dimension to filter #1",
-                        ("query", "page", "device", "searchAppearance", "country"),
-                        help="""
-                        You can choose to filter dimensions and apply filters before executing a query.
-                        """,
-                    )
 
                 with col2:
                     filter_type = st.selectbox(
@@ -201,108 +148,37 @@ try:
                         help="Add the keyword(s) you want to filter",
                     )
 
-                with col1:
-                    filter_page_or_query2 = st.selectbox(
-                        "Dimension to filter #2",
-                        ("query", "page", "device", "searchAppearance", "country"),
-                        key="filter_page_or_query2",
-                        help="""
-                        You can choose to filter dimensions and apply filters before executing a query.
-                        """,
-                    )
 
-                with col2:
-                    filter_type2 = st.selectbox(
-                        "Filter type",
-                        (
-                            "contains",
-                            "equals",
-                            "notContains",
-                            "notEquals",
-                            "includingRegex",
-                            "excludingRegex",
-                        ),
-                        key="filter_type2",
-                        help="""
-                        Note that if you use Regex in your filter, you must follow the `RE2` syntax.
-                        """,
-                    )
+            timescale = st.selectbox(
+                "Date range",
+                (
+                    "Last 7 days",
+                    "Last 30 days",
+                    "Last 3 months",
+                    "Last 6 months",
+                    "Last 12 months",
+                    "Last 16 months",
+                ),
+                index=0,
+                help="Specify the date range",
+            )
 
-                with col3:
-                    filter_keyword2 = st.text_input(
-                        "Keyword(s) to filter ",
-                        "",
-                        key="filter_keyword2",
-                        help="Add the keyword(s) you want to filter",
-                    )
-
-                with col1:
-                    filter_page_or_query3 = st.selectbox(
-                        "Dimension to filter #3",
-                        ("query", "page", "device", "searchAppearance", "country"),
-                        key="filter_page_or_query3",
-                        help="""
-                        You can choose to filter dimensions and apply filters before executing a query.
-                        """,
-                    )
-
-                with col2:
-                    filter_type3 = st.selectbox(
-                        "Filter type",
-                        (
-                            "contains",
-                            "equals",
-                            "notContains",
-                            "notEquals",
-                            "includingRegex",
-                            "excludingRegex",
-                        ),
-                        key="filter_type3",
-                        help="""
-                        Note that if you use Regex in your filter, you must follow the `RE2` syntax.
-                        """,
-                    )
-
-                with col3:
-                    filter_keyword3 = st.text_input(
-                        "Keyword(s) to filter ",
-                        "",
-                        key="filter_keyword3",
-                        help="Add the keyword(s) you want to filter",
-                    )
-
-                st.write("")
+            if timescale == "Last 7 days":
+                timescale = -7
+            elif timescale == "Last 30 days":
+                timescale = -30
+            elif timescale == "Last 3 months":
+                timescale = -91
+            elif timescale == "Last 6 months":
+                timescale = -182
+            elif timescale == "Last 12 months":
+                timescale = -365
+            elif timescale == "Last 16 months":
+                timescale = -486
 
             submit_button = st.form_submit_button(
                 label="Fetch GSC API data", on_click=charly_form_callback
             )
-
-        if (nested_dimension != "none") and (nested_dimension_2 != "none"):
-
-            if (
-                (dimension == nested_dimension)
-                or (dimension == nested_dimension_2)
-                or (nested_dimension == nested_dimension_2)
-            ):
-                st.warning(
-                    "🚨 Dimension and nested dimensions cannot be the same, please make sure you choose unique dimensions."
-                )
-                st.stop()
-
-            else:
-                pass
-
-        elif (nested_dimension != "none") and (nested_dimension_2 == "none"):
-            if dimension == nested_dimension:
-                st.warning(
-                    "🚨 Dimension and nested dimensions cannot be the same, please make sure you choose unique dimensions."
-                )
-                st.stop()
-            else:
-                pass
-
-        else:
-            pass
 
     if st.session_state.my_token_received == True:
 
