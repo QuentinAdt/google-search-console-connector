@@ -846,7 +846,7 @@ try:
         affiner = st.checkbox('Affiner volumes de données à analyser')
         if affiner:
             slider_clic = st.slider('Nombre de clicks minimum par mot clé à analyser', 0, 100)
-            slider_max_clicks = st.slider('Nombre de clicks maximum par mot clé à analyser', 0, max_clicks_found,max_clicks_found)
+            slider_max_clicks = st.slider('Nombre de clicks maximum par mot clé à analyser', 0, max_clics_found,max_clics_found)
             slider_max_impressions = st.slider('Nombre d\'impressions maximum par mot clé à analyser', 0, max_impressions_found,max_impressions_found)
         
         #st.bar_chart(df)
