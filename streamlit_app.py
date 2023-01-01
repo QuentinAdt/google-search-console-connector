@@ -823,7 +823,7 @@ try:
 
         csv = convert_df(df)
         st.download_button(
-            label="Download CSV",
+            label="Download all Search Console data (without analysis)",
             data=csv,
             file_name="large_df.csv",
             mime="text/csv",
