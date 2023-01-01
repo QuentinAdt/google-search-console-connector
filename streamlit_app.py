@@ -31,8 +31,6 @@ clientSecret = str(st.secrets["installed"]["client_secret"])
 clientId = str(st.secrets["installed"]["client_id"])
 redirectUri = str(st.secrets["installed"]["redirect_uris"][0])
 
-st.markdown("")
-
 if "my_token_input" not in st.session_state:
     st.session_state["my_token_input"] = ""
 
@@ -46,8 +44,6 @@ def charly_form_callback():
     st.session_state.my_token_input = code
 
 with st.sidebar.form(key="my_form"):
-
-    st.markdown("")
 
     mt = Elements()
 
@@ -90,36 +86,12 @@ with st.sidebar.form(key="my_form"):
         label="Access GSC API", on_click=charly_form_callback
     )
 
-    st.write("")
-
-    with st.expander("How to access your GSC data?"):
-        st.markdown(
-            """
-        1. Click on the `Sign-in with Google` button
-        2. You will be redirected to the Google Oauth screen
-        3. Choose the Google account you want to use & click `Continue`
-        5. You will be redirected back to this app.
-        6. Click on the "Access GSC API" button.
-        7. Voilà! 🙌 
-        """
-        )
-        st.write("")
-
-    with st.expander("Check your Oauth token"):
-        code = st.text_input(
-            "",
-            key="my_token_input",
-            label_visibility="collapsed",
-        )
-
-    st.write("")
-
 container3 = st.sidebar.container()
 
 st.sidebar.write("")
 
 st.sidebar.caption(
-    "Made in 🎈 [Streamlit](https://www.streamlit.io/), by [Charly Wargnier](https://www.charlywargnier.com/)."
+    "Made in 🎈 [Streamlit](https://www.streamlit.io/), by [Charly Wargnier](https://www.charlywargnier.com/) and , by [Quentin Adt](https://www.quentinadt.com/)."
 )
 
 try:
