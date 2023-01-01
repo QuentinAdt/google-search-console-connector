@@ -899,6 +899,16 @@ try:
                     # Incrémentation du compteur du nombre de lignes
                     nb_rows += 1
 
+        # Calcul du CTR moyen par tranche de position
+        for position, clicks in clics_by_position.items():
+            impressions = impressions_by_position[position]
+            if(impressions):
+                ctr_by_position[position] = round(clicks / impressions*100)
+            else:
+                ctr_by_position[position] = 0
+        #df_ctr_by_position = pd.DataFrame.from_dict(ctr_by_position, orient='index', columns=['CTR par sum total'])
+
+
         #Trafic potentiel par requête
         query_analysables = {}
         list_keywords = st.text_area('Liste de mots clés à analyser en priorité')
