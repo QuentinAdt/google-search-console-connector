@@ -844,6 +844,7 @@ try:
 
         slider_max_impressions = st.slider('Nombre d\'impressions maximum par mot clé à analyser', 0, max_impressions_found,max_impressions_found)
 
+        st.bar_chart(df)
         for index, row in df.iterrows():
             if row['impressions']:
                 position = float(row['position'])
