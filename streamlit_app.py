@@ -915,8 +915,8 @@ try:
 
 
         #Trafic potentiel par requête
-        filtrer_keywords = st.checkbox('Filtrer les keywords à analyser')
-        if filtrer_keywords:    
+        affiche_tous_les_keywords = st.checkbox('Filtrer les keywords à analyser')
+        if affiche_tous_les_keywords:    
             query_analysables = {}
             list_keywords = st.text_area('Liste de mots clés à analyser en priorité')
 
@@ -940,7 +940,7 @@ try:
             qa.columns =['Requête','Potentiel Gain trafic ']
             qa = qa.sort_values(by=['Potentiel Gain trafic'], ascending=False)
             st.dataframe(qa)
-            
+
             #Boutton Download
             csv = convert_df(qa)
             st.download_button(
@@ -949,6 +949,7 @@ try:
                 file_name="trafic_potentiel_keywords_filtres.csv",
                 mime="text/csv",
             )
+
 
         #2e tableau avec toutes les opportunités liées à ce KW
         toutes_requetes = {}
