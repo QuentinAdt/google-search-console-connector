@@ -98,7 +98,8 @@ try:
 
     if st.session_state.my_token_received == False:
 
-        st.write('Il faut se connecter à Google Search Console')
+        st.write('Il faut se connecter à Google Search Console (bouton Sign-in with Google à gauche)')
+        st.write('Ensuite cliquer sur le bouton Access GSC API')
 
 
 
