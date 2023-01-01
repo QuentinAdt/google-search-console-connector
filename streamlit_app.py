@@ -915,8 +915,8 @@ try:
 
 
         #Trafic potentiel par requête
-        affiche_tous_les_keywords = st.checkbox('Afficher les gains de keywords potentiels sans filtrer')
-        if affiche_tous_les_keywords:    
+        filtrer_les_keywords = st.checkbox('Filtrer sur une liste de keywords')
+        if(filtrer_les_keywords):    
             query_analysables = {}
             list_keywords = st.text_area('Liste de mots clés à analyser en priorité')
 
@@ -950,30 +950,31 @@ try:
                 mime="text/csv",
             )
 
+        affiche_tous_les_keywords = st.checkbox('Afficher les gains de keywords potentiels sans filtrer')
+        if(affiche_tous_les_keywords):
+            #2e tableau avec toutes les opportunités liées à ce KW
+            toutes_requetes = {}
+            for index, row in df.iterrows():
+                position = float(row['position'])
+                clicks = int(row['clicks'])
+                impressions = int(row['impressions'])
+                diff_trafic = round(impressions * ctr_by_position["1->2"] / 100 - clicks)
+                if(position > 2):
+                    toutes_requetes[row['query']] = diff_trafic
+            df_toutes_requetes = pd.DataFrame(list(toutes_requetes.items()))
+            df_toutes_requetes.columns =['Requête','Potentiel Gain trafic']
+            df_toutes_requetes = df_toutes_requetes.sort_values(by=['Potentiel Gain trafic'], ascending=False)
+            st.dataframe(df_toutes_requetes)
 
-        #2e tableau avec toutes les opportunités liées à ce KW
-        toutes_requetes = {}
-        for index, row in df.iterrows():
-            position = float(row['position'])
-            clicks = int(row['clicks'])
-            impressions = int(row['impressions'])
-            diff_trafic = round(impressions * ctr_by_position["1->2"] / 100 - clicks)
-            if(position > 2):
-                toutes_requetes[row['query']] = diff_trafic
-        df_toutes_requetes = pd.DataFrame(list(toutes_requetes.items()))
-        df_toutes_requetes.columns =['Requête','Potentiel Gain trafic']
-        df_toutes_requetes = df_toutes_requetes.sort_values(by=['Potentiel Gain trafic'], ascending=False)
-        st.dataframe(df_toutes_requetes)
-
-        #Boutton Download
-        csv = convert_df(df_toutes_requetes)
-        
-        st.download_button(
-            label="Download CSV",
-            data=csv,
-            file_name="trafic_potentiel_keywords_all.csv",
-            mime="text/csv",
-        )
+            #Boutton Download
+            csv = convert_df(df_toutes_requetes)
+            
+            st.download_button(
+                label="Download CSV",
+                data=csv,
+                file_name="trafic_potentiel_keywords_all.csv",
+                mime="text/csv",
+            )
 
         #CTR par position - Graphique
         st.header("Graphique")
