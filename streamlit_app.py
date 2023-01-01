@@ -756,7 +756,7 @@ try:
 
         # Initialisation du dictionnaire avec les tranches de position comme clés et 0 comme valeur
         ctr_by_position = {
-            "0->1": 0,
+            "1": 0,
             "1->2": 0,
             "2->3": 0,
             "3->4": 0,
@@ -769,7 +769,7 @@ try:
             "10 et +": 0
         }
         clics_by_position = {
-            "0->1": 0,
+            "1": 0,
             "1->2": 0,
             "2->3": 0,
             "3->4": 0,
@@ -782,7 +782,7 @@ try:
             "10 et +": 0
         }
         impressions_by_position = {
-            "0->1": 0,
+            "1": 0,
             "1->2": 0,
             "2->3": 0,
             "3->4": 0,
@@ -795,7 +795,7 @@ try:
             "10 et +": 0
         }
         queries_by_position = {
-            "0->1": 0,
+            "1": 0,
             "1->2": 0,
             "2->3": 0,
             "3->4": 0,
@@ -831,10 +831,10 @@ try:
                 impressions = int(row['impressions'])
                 if(int(row['clicks']) > slider_clic and int(row['clicks']) < slider_max_clics \
                     and int(row['impressions']) < slider_max_impressions):
-                    if position < 1:
-                        clics_by_position["0->1"]       += clics
-                        impressions_by_position["0->1"] += impressions
-                        queries_by_position["0->1"]     += 1
+                    if position == 1:
+                        clics_by_position["1"]       += clics
+                        impressions_by_position["1"] += impressions
+                        queries_by_position["1"]     += 1
                     elif 1 <= position <= 2:
                         clics_by_position["1->2"]       += clics
                         impressions_by_position["1->2"] += impressions
@@ -890,6 +890,18 @@ try:
         with col1:
             st.header("Graphique")
             st.bar_chart(df)
+            @st.cache
+            def convert_df(df):
+                return df.to_csv().encode("utf-8")
+
+            csv = convert_df(df)
+
+            st.download_button(
+                label="Download CSV",
+                data=csv,
+                file_name="large_df.csv",
+                mime="text/csv",
+            )
 
         with col2:
             st.header("Data")
