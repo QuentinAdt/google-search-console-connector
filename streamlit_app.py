@@ -935,7 +935,7 @@ try:
                 toutes_requetes[row['query']] = diff_trafic
         df_toutes_requetes = pd.DataFrame(list(toutes_requetes.items()))
         df_toutes_requetes.columns =['Requête','Trafic potentiel']
-        
+        st.write(ctr_by_position)
         st.dataframe(df_toutes_requetes)
 
         #CTR par position - Graphique
