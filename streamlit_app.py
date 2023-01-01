@@ -748,12 +748,6 @@ try:
             len(df.index),
         )
 
-        @st.cache
-        def convert_df(df):
-            return df.to_csv().encode("utf-8")
-
-        csv = convert_df(df)
-
         # Initialisation du dictionnaire avec les tranches de position comme clés et 0 comme valeur
         ctr_by_position = {
             "1": 0,
@@ -811,6 +805,18 @@ try:
 
         max_impressions_found = 0
         max_clics_found = 0
+
+        @st.cache
+        def convert_df(df):
+            return df.to_csv().encode("utf-8")
+
+        csv = convert_df(df)
+        st.download_button(
+            label="Download CSV",
+            data=csv,
+            file_name="large_df.csv",
+            mime="text/csv",
+        )
         
         for index, row in df.iterrows():
             #st.write(row['query'], row['clicks'])
@@ -890,18 +896,6 @@ try:
         with col1:
             st.header("Graphique")
             st.bar_chart(df)
-            @st.cache
-            def convert_df(df):
-                return df.to_csv().encode("utf-8")
-
-            csv = convert_df(df)
-
-            st.download_button(
-                label="Download CSV",
-                data=csv,
-                file_name="large_df.csv",
-                mime="text/csv",
-            )
 
         with col2:
             st.header("Data")
