@@ -929,6 +929,7 @@ try:
             position = float(row['position'])
             clicks = int(row['clicks'])
             impressions = int(row['impressions'])
+            st.write(ctr_by_position)
             diff_trafic = round(impressions * ctr_by_position["1->2"] / 100 - clicks)
             if(position > 2):
                 toutes_requetes[row['query']] = diff_trafic
