@@ -906,26 +906,46 @@ try:
         list_keywords_splited = list_keywords.split('\n')
         for kw in list_keywords_splited:
             for index, row in df.iterrows():
+                diff_trafic = 0
                 if(row['query'] in [kw]):
                     position = float(row['position'])
                     clicks = int(row['clicks'])
                     impressions = int(row['impressions'])
+                    diff_trafic = round(impressions * ctr_by_position["1->2"] / 100 - clicks)
                     if(position < 2):
                         query_analysables[row['query']] = 0
+                    elif diff_trafic < 0:
+                        query_analysables[row['query']] = 0
                     else:
-                        query_analysables[row['query']] = round(int(row['impressions']) * ctr_by_position["1->2"] / 100 - int(row['clicks']))
+                         query_analysables[row['query']] = diff_trafic
+
         qa = pd.DataFrame(list(query_analysables.items()))
-        qa.columns =['Requête','Trafic potentiel']
+        qa.columns =['Requête','Potentiel Gain trafic ']
         st.dataframe(qa)
-        st.dataframe(df)
+
+        #2e tableau avec toutes les opportunités liées à ce KW
+        toutes_requetes = {}
+        for index, row in df.iterrows():
+            position = float(row['position'])
+            clicks = int(row['clicks'])
+            impressions = int(row['impressions'])
+            diff_trafic = round(impressions * ctr_by_position["1->2"] / 100 - clicks)
+            if(position > 2):
+                toutes_requetes[row['query']] = diff_trafic
+        df_toutes_requetes = pd.DataFrame(list(toutes_requetes.items()))
+        df_toutes_requetes.columns =['Requête','Trafic potentiel']
+        
+        st.dataframe(df_toutes_requetes)
 
         #CTR par position - Graphique
         st.header("Graphique")
+        st.write('Desactivé pour optimiser performance')
         #st.bar_chart(df)
 
         #CTR par position - Tableau 
         st.header("Data")
         df['query_by_position'] = query_by_position
+        st.write('Desactivé pour optimiser performance')
         #st.dataframe(df)
 
 
