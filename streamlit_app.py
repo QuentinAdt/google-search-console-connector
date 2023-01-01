@@ -26,8 +26,6 @@ st.set_page_config(
 # row limit
 RowCap = 25000
 
-st.sidebar.image("logo.png", width=290)
-
 st.sidebar.markdown("")
 
 st.write("")
@@ -978,7 +976,7 @@ try:
         #CTR par position - Graphique
         st.header("Graphique et Tableau CTR par position")
         afficher_stats_ctr = st.checkbox('Afficher les stats des CTR par position')
-        if(afficher_graphique_ctr):
+        if(afficher_stats_ctr):
             st.bar_chart(df)
             df['query_by_position'] = query_by_position
             st.dataframe(df)
