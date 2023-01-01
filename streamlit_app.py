@@ -844,7 +844,6 @@ try:
 
         affiner = st.checkbox('Affiner volumes de données à analyser')
         if affiner:
-            RowCap =  st.slider('Nombre de résultats API à récupérer',10, 100000,25000)
             slider_clic = st.slider('Nombre de clicks minimum par mot clé à analyser', 0, 100)
             slider_max_clicks = st.slider('Nombre de clicks maximum par mot clé à analyser', 0, max_clics_found,max_clics_found)
             slider_max_impressions = st.slider('Nombre d\'impressions maximum par mot clé à analyser', 0, max_impressions_found,max_impressions_found)
