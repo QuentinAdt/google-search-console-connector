@@ -176,36 +176,36 @@ try:
                     )
 
 
-            timescale = st.selectbox(
-                "Date range",
-                (
-                    "Last 7 days",
-                    "Last 30 days",
-                    "Last 3 months",
-                    "Last 6 months",
-                    "Last 12 months",
-                    "Last 16 months",
-                ),
-                index=0,
-                help="Specify the date range",
-            )
+                timescale = st.selectbox(
+                    "Date range",
+                    (
+                        "Last 7 days",
+                        "Last 30 days",
+                        "Last 3 months",
+                        "Last 6 months",
+                        "Last 12 months",
+                        "Last 16 months",
+                    ),
+                    index=0,
+                    help="Specify the date range",
+                )
 
-            if timescale == "Last 7 days":
-                timescale = -7
-            elif timescale == "Last 30 days":
-                timescale = -30
-            elif timescale == "Last 3 months":
-                timescale = -91
-            elif timescale == "Last 6 months":
-                timescale = -182
-            elif timescale == "Last 12 months":
-                timescale = -365
-            elif timescale == "Last 16 months":
-                timescale = -486
+                if timescale == "Last 7 days":
+                    timescale = -7
+                elif timescale == "Last 30 days":
+                    timescale = -30
+                elif timescale == "Last 3 months":
+                    timescale = -91
+                elif timescale == "Last 6 months":
+                    timescale = -182
+                elif timescale == "Last 12 months":
+                    timescale = -365
+                elif timescale == "Last 16 months":
+                    timescale = -486
 
-            submit_button = st.form_submit_button(
-                label="Fetch GSC API data", on_click=charly_form_callback
-            )
+                submit_button = st.form_submit_button(
+                    label="Fetch GSC API data", on_click=charly_form_callback
+                )
 
         def get_search_console_data(webproperty):
             if webproperty is not None:
