@@ -946,8 +946,8 @@ try:
                 file_name="trafic_potentiel_keywords_filtres.csv",
                 mime="text/csv",
             )
-
-        affiche_tous_les_keywords = st.checkbox('Afficher les gains de keywords potentiels sans filtrer')
+ 
+        affiche_tous_les_keywords = st.checkbox('Afficher les opportunités de trafic sans filtrer', value=True)
         if(affiche_tous_les_keywords):
             #2e tableau avec toutes les opportunités liées à ce KW
             toutes_requetes = {}
