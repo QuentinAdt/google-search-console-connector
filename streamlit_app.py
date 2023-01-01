@@ -915,7 +915,7 @@ try:
 
 
         #Trafic potentiel par requête
-        filtrer_keywords = st.checkbox('Filtrer volumes de données à analyser')
+        filtrer_keywords = st.checkbox('Filtrer les keywords à analyser')
         if filtrer_keywords:    
             query_analysables = {}
             list_keywords = st.text_area('Liste de mots clés à analyser en priorité')
@@ -938,7 +938,10 @@ try:
 
             qa = pd.DataFrame(list(query_analysables.items()))
             qa.columns =['Requête','Potentiel Gain trafic ']
+            qa = qa.sort_values(by=['Potentiel Gain trafic'], ascending=False)
             st.dataframe(qa)
+            
+            #Boutton Download
             csv = convert_df(qa)
             st.download_button(
                 label="Download CSV",
@@ -957,9 +960,13 @@ try:
             if(position > 2):
                 toutes_requetes[row['query']] = diff_trafic
         df_toutes_requetes = pd.DataFrame(list(toutes_requetes.items()))
-        df_toutes_requetes.columns =['Requête','Trafic potentiel']
+        df_toutes_requetes.columns =['Requête','Potentiel Gain trafic']
+        df_toutes_requetes = df_toutes_requetes.sort_values(by=['Potentiel Gain trafic'], ascending=False)
         st.dataframe(df_toutes_requetes)
+
+        #Boutton Download
         csv = convert_df(df_toutes_requetes)
+        
         st.download_button(
             label="Download CSV",
             data=csv,
