@@ -977,15 +977,12 @@ try:
             )
 
         #CTR par position - Graphique
-        st.header("Graphique")
-        st.write('Desactivé pour optimiser performance')
-        #st.bar_chart(df)
-
-        #CTR par position - Tableau 
-        st.header("Data")
-        df['query_by_position'] = query_by_position
-        st.write('Desactivé pour optimiser performance')
-        #st.dataframe(df)
+        st.header("Graphique et Tableau CTR par position")
+        afficher_stats_ctr = st.checkbox('Afficher les stats des CTR par position')
+        if(afficher_graphique_ctr):
+            st.bar_chart(df)
+            df['query_by_position'] = query_by_position
+            st.dataframe(df)
 
 
 
