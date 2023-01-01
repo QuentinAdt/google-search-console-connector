@@ -814,7 +814,7 @@ try:
             "9->10": 0,
             "10 et +": 0
         }
-        
+
         nb_rows = 0
 
         max_impressions_found = 0
@@ -905,7 +905,7 @@ try:
         for kw in list_keywords_splited:
             for index, row in df.iterrows():
                 if(row['query'] in [kw]):
-                    position = float(row['position'].replace(',', '.'))
+                    position = float(row['position'])
                     clicks = int(row['clicks'])
                     impressions = int(row['impressions'])
                     if(position < 2):
