@@ -115,54 +115,9 @@ try:
             col1, col2, col3 = st.columns(3)
 
             with col1:
-                dimension = st.selectbox(
-                    "Dimension",
-                    (
-                        "query",
-                        "page",
-                        "date",
-                        "device",
-                        "searchAppearance",
-                        "country",
-                    ),
-                    help="Choose a top dimension",
-                )
+                dimension = "query"
 
             with col2:
-                nested_dimension = st.selectbox(
-                    "Nested dimension",
-                    (
-                        "none",
-                        "query",
-                        "page",
-                        "date",
-                        "device",
-                        "searchAppearance",
-                        "country",
-                    ),
-                    help="Choose a nested dimension",
-                )
-
-            with col3:
-                nested_dimension_2 = st.selectbox(
-                    "Nested dimension 2",
-                    (
-                        "none",
-                        "query",
-                        "page",
-                        "date",
-                        "device",
-                        "searchAppearance",
-                        "country",
-                    ),
-                    help="Choose a second nested dimension",
-                )
-
-            st.write("")
-
-            col1, col2 = st.columns(2)
-
-            with col1:
                 search_type = st.selectbox(
                     "Search type",
                     ("web", "video", "image", "news", "googleNews"),
@@ -176,7 +131,8 @@ try:
                     """,
                 )
 
-            with col2:
+
+            with col3:
                 timescale = st.selectbox(
                     "Date range",
                     (
@@ -203,6 +159,9 @@ try:
                     timescale = -365
                 elif timescale == "Last 16 months":
                     timescale = -486
+
+            st.write("")
+
 
             st.write("")
 
