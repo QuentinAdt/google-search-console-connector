@@ -98,21 +98,8 @@ try:
 
     if st.session_state.my_token_received == False:
 
-        with st.form(key="my_form2"):
+        st.write('Il faut se connecter à Google Search Console')
 
-            # text_input_container = st.empty()
-            webpropertiesNEW = st.text_input(
-                "Web property to review (please sign in via Google OAuth first)",
-                value="",
-                disabled=True,
-            )
-
-            filename = webpropertiesNEW.replace("https://www.", "")
-            filename = filename.replace("http://www.", "")
-            filename = filename.replace(".", "")
-            filename = filename.replace("/", "")
-
-            col1, col2, col3 = st.columns(3)
 
 
     if st.session_state.my_token_received == True:
