@@ -939,6 +939,13 @@ try:
             qa = pd.DataFrame(list(query_analysables.items()))
             qa.columns =['Requête','Potentiel Gain trafic ']
             st.dataframe(qa)
+            csv = convert_df(qa)
+            st.download_button(
+                label="Download CSV",
+                data=csv,
+                file_name="trafic_potentiel_keywords_filtres.csv",
+                mime="text/csv",
+            )
 
         #2e tableau avec toutes les opportunités liées à ce KW
         toutes_requetes = {}
@@ -952,6 +959,13 @@ try:
         df_toutes_requetes = pd.DataFrame(list(toutes_requetes.items()))
         df_toutes_requetes.columns =['Requête','Trafic potentiel']
         st.dataframe(df_toutes_requetes)
+        csv = convert_df(df_toutes_requetes)
+        st.download_button(
+            label="Download CSV",
+            data=csv,
+            file_name="trafic_potentiel_keywords_all.csv",
+            mime="text/csv",
+        )
 
         #CTR par position - Graphique
         st.header("Graphique")
