@@ -839,9 +839,9 @@ try:
             if(int(row['clicks'])>max_clics_found):
                 max_clics_found = int(row['clicks'])
 
-        slider_clic = st.slider('Nombre de clics minimum par mot clé à analyser', 0, 100)
-        slider_max_clics = st.slider('Nombre de clics maximum par mot clé à analyser', 0, max_clics_found,max_clics_found)
-        slider_max_impressions = st.slider('Nombre d\'impressions maximum par mot clé à analyser', 0, max_impressions_found,max_impressions_found)
+        slider_clic = 0
+        slider_max_clics = max_clics_found
+        slider_max_impressions = max_impressions_found
 
         affiner = st.checkbox('Affiner volumes de données à analyser')
         if affiner:
@@ -951,7 +951,6 @@ try:
                 toutes_requetes[row['query']] = diff_trafic
         df_toutes_requetes = pd.DataFrame(list(toutes_requetes.items()))
         df_toutes_requetes.columns =['Requête','Trafic potentiel']
-        st.write(ctr_by_position)
         st.dataframe(df_toutes_requetes)
 
         #CTR par position - Graphique
