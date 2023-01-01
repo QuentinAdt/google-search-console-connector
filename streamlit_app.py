@@ -210,12 +210,10 @@ try:
         def get_search_console_data(webproperty):
             if webproperty is not None:
                 report = (
-                    webproperty.query.search_type(search_type)
+                    webproperty.query.search_type("web")
                     .range("today", days=timescale)
                     .dimension(dimension)
                     .filter(filter_page_or_query, filter_keyword, filter_type)
-                    .filter(filter_page_or_query2, filter_keyword2, filter_type2)
-                    .filter(filter_page_or_query3, filter_keyword3, filter_type3)
                     .limit(RowCap)
                     .get()
                     .to_dataframe()
@@ -225,75 +223,11 @@ try:
                 st.warning("No webproperty found")
                 st.stop()
 
-        def get_search_console_data_nested(webproperty):
-            if webproperty is not None:
-                # query = webproperty.query.range(start="today", days=days).dimension("query")
-                report = (
-                    webproperty.query.search_type(search_type)
-                    .range("today", days=timescale)
-                    .dimension(dimension, nested_dimension)
-                    .filter(filter_page_or_query, filter_keyword, filter_type)
-                    .filter(filter_page_or_query2, filter_keyword2, filter_type2)
-                    .filter(filter_page_or_query3, filter_keyword3, filter_type3)
-                    .limit(RowCap)
-                    .get()
-                    .to_dataframe()
-                )
-                return report
 
-        def get_search_console_data_nested_2(webproperty):
-            if webproperty is not None:
-                # query = webproperty.query.range(start="today", days=days).dimension("query")
-                report = (
-                    webproperty.query.search_type(search_type)
-                    .range("today", days=timescale)
-                    .dimension(dimension, nested_dimension, nested_dimension_2)
-                    .filter(filter_page_or_query, filter_keyword, filter_type)
-                    .filter(filter_page_or_query2, filter_keyword2, filter_type2)
-                    .filter(filter_page_or_query3, filter_keyword3, filter_type3)
-                    .limit(RowCap)
-                    .get()
-                    .to_dataframe()
-                )
-                return report
+        webproperty = account[webpropertiesNEW]
 
-        # Here are some conditions to check which function to call
+        df = get_search_console_data(webproperty)
 
-        if nested_dimension == "none" and nested_dimension_2 == "none":
-
-            webproperty = account[webpropertiesNEW]
-
-            df = get_search_console_data(webproperty)
-
-            if df.empty:
-                st.warning(
-                    "🚨 There's no data for your selection, please refine your search with different criteria"
-                )
-                st.stop()
-
-        elif nested_dimension_2 == "none":
-
-            webproperty = account[webpropertiesNEW]
-
-            df = get_search_console_data_nested(webproperty)
-
-            if df.empty:
-                st.warning(
-                    "🚨 DataFrame is empty! Please refine your search with different criteria"
-                )
-                st.stop()
-
-        else:
-
-            webproperty = account[webpropertiesNEW]
-
-            df = get_search_console_data_nested_2(webproperty)
-
-            if df.empty:
-                st.warning(
-                    "🚨 DataFrame is empty! Please refine your search with different criteria"
-                )
-                st.stop()
 
         st.write(
             "##### # of results returned by API call: ",
