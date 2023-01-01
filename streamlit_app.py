@@ -91,7 +91,7 @@ container3 = st.sidebar.container()
 st.sidebar.write("")
 
 st.sidebar.caption(
-    "Made in 🎈 [Streamlit](https://www.streamlit.io/), by [Charly Wargnier](https://www.charlywargnier.com/) and , by [Quentin Adt](https://www.quentinadt.com/)."
+    "Made in 🎈 [Streamlit](https://www.streamlit.io/), by [Charly Wargnier](https://www.charlywargnier.com/) (Search Console API connector) and [Quentin Adt](https://www.quentinadt.com/) (Data Analysis)."
 )
 
 try:
