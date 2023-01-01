@@ -919,12 +919,12 @@ try:
 
         #CTR par position - Graphique
         st.header("Graphique")
-        st.bar_chart(df)
+        #st.bar_chart(df)
 
         #CTR par position - Tableau 
         st.header("Data")
         df['query_by_position'] = query_by_position
-        st.dataframe(df)
+        #st.dataframe(df)
 
 
 
