@@ -801,6 +801,20 @@ try:
             "9->10": 0,
             "10 et +": 0
         }
+        query_by_position = {
+            "0->1": 0,
+            "1->2": 0,
+            "2->3": 0,
+            "3->4": 0,
+            "4->5": 0,
+            "5->6": 0,
+            "6->7": 0,
+            "7->8": 0,
+            "8->9": 0,
+            "9->10": 0,
+            "10 et +": 0
+        }
+        
         nb_rows = 0
 
         max_impressions_found = 0
@@ -884,23 +898,32 @@ try:
                     # Incrémentation du compteur du nombre de lignes
                     nb_rows += 1
 
-        # Calcul du CTR moyen par tranche de position
-        for position, clics in clics_by_position.items():
-            impressions = impressions_by_position[position]
-            if(impressions):
-                ctr_by_position[position] = round(clics / impressions*100)
-            else:
-                ctr_by_position[position] = 0
-        df = pd.DataFrame.from_dict(ctr_by_position, orient='index', columns=['CTR par sum total'])
-        col1, col2 = st.columns(2)
-        with col1:
-            st.header("Graphique")
-            st.bar_chart(df)
+        #Trafic potentiel par requête
+        query_analysables = {}
+        list_keywords = st.text_area('Liste de mots clés')
+        list_keywords_splited = list_keywords.split('\n')
+        for kw in list_keywords_splited:
+            for index, row in df.iterrows():
+                if(row['query'] in [kw]):
+                    position = float(row['position'].replace(',', '.'))
+                    clicks = int(row['clicks'])
+                    impressions = int(row['impressions'])
+                    if(position < 2):
+                        query_analysables[row['query']] = 0
+                    else:
+                        query_analysables[row['query']] = round(int(row['impressions']) * ctr_by_position["1->2"] / 100 - int(row['clicks']))
+        qa = pd.DataFrame(list(query_analysables.items()))
+        qa.columns =['Requête','Trafic potentiel']
+        st.dataframe(qa)
 
-        with col2:
-            st.header("Data")
-            df['Queries_by_position'] = queries_by_position
-            st.dataframe(df)
+        #CTR par position - Graphique
+        st.header("Graphique")
+        st.bar_chart(df)
+
+        #CTR par position - Tableau 
+        st.header("Data")
+        df['query_by_position'] = query_by_position
+        st.dataframe(df)
 
 
 
