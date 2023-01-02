@@ -440,15 +440,24 @@ try:
         if(affiche_tous_les_keywords):
             #2e tableau avec toutes les opportunités liées à ce KW
             toutes_requetes = {}
+            fiabilite = []
             for index, row in df.iterrows():
                 position = float(row['position'])
                 clicks = int(row['clicks'])
                 impressions = int(row['impressions'])
                 diff_trafic = round(impressions * ctr_by_position["1->2"] / 100 - clicks)
+                fiabilite_level = "High"
                 if(position > 2):
                     toutes_requetes[row['query']] = diff_trafic
+                if(position > 10):
+                    fiabilite_level = "Average"
+                if(position > 20):
+                    fiabilite_level = "Low"
+                fiabilite.append(fiabilite_level)
+            
             df_toutes_requetes = pd.DataFrame(list(toutes_requetes.items()))
-            df_toutes_requetes.columns =['Requête','Potentiel Gain trafic']
+            df_toutes_requetes['Fiabilité'] = fiabilite
+            df_toutes_requetes.columns =['Requête','Potentiel Gain trafic','Fiabilité']
             df_toutes_requetes = df_toutes_requetes.sort_values(by=['Potentiel Gain trafic'], ascending=False)
             st.dataframe(df_toutes_requetes)
 
