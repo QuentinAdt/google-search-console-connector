@@ -456,10 +456,10 @@ try:
                     fiabilite_level = "Low"
                     toutes_requetes[row['query']] = diff_trafic
                 fiabilite.append(fiabilite_level)
+            #A terminer: indice fiabilité
             
             df_toutes_requetes = pd.DataFrame(list(toutes_requetes.items()))
-            df_toutes_requetes['Fiabilité'] = fiabilite
-            df_toutes_requetes.columns =['Requête','Potentiel Gain trafic','Fiabilité']
+            df_toutes_requetes.columns =['Requête','Potentiel Gain trafic']
             df_toutes_requetes = df_toutes_requetes.sort_values(by=['Potentiel Gain trafic'], ascending=False)
             st.dataframe(df_toutes_requetes)
 
