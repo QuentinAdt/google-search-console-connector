@@ -144,7 +144,7 @@ try:
                 with col1:
                     dimension = "query"
                     filter_page_or_query = st.selectbox(
-                        "Dimension to filter #1",
+                        "Dimension to filter #1 (optional)",
                         ("query", "page", "device", "searchAppearance", "country"),
                         help="""
                         You can choose to filter dimensions and apply filters before executing a query.
@@ -154,7 +154,7 @@ try:
 
                 with col2:
                     filter_type = st.selectbox(
-                        "Filter type",
+                        "Filter type (optional)",
                         (
                             "contains",
                             "equals",
@@ -170,7 +170,7 @@ try:
 
                 with col3:
                     filter_keyword = st.text_input(
-                        "Keyword(s) to filter ",
+                        "Keyword(s) to filter (optional)",
                         "",
                         help="Add the keyword(s) you want to filter",
                     )
