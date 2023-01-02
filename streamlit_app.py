@@ -451,8 +451,10 @@ try:
                     toutes_requetes[row['query']] = diff_trafic
                 if(position > 10):
                     fiabilite_level = "Average"
+                    toutes_requetes[row['query']] = diff_trafic
                 if(position > 20):
                     fiabilite_level = "Low"
+                    toutes_requetes[row['query']] = diff_trafic
                 fiabilite.append(fiabilite_level)
             
             df_toutes_requetes = pd.DataFrame(list(toutes_requetes.items()))
