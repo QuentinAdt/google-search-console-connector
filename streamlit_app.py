@@ -400,42 +400,6 @@ try:
         #df_ctr_by_position = pd.DataFrame.from_dict(ctr_by_position, orient='index', columns=['CTR par sum total'])
 
 
-        #Trafic potentiel par requête
-        filtrer_les_keywords = st.checkbox('Filtrer sur une liste de keywords')
-        if(filtrer_les_keywords):    
-            query_analysables = {}
-            list_keywords = st.text_area('Liste de mots clés à analyser en priorité')
-
-            list_keywords_splited = list_keywords.split('\n')
-            for kw in list_keywords_splited:
-                for index, row in df.iterrows():
-                    diff_trafic = 0
-                    if(row['query'] in [kw]):
-                        position = float(row['position'])
-                        clicks = int(row['clicks'])
-                        impressions = int(row['impressions'])
-                        diff_trafic = round(impressions * ctr_by_position["1->2"] / 100 - clicks)
-                        if(position < 2):
-                            query_analysables[row['query']] = 0
-                        elif diff_trafic < 0:
-                            query_analysables[row['query']] = 0
-                        else:
-                            query_analysables[row['query']] = diff_trafic
-
-            qa = pd.DataFrame(list(query_analysables.items()))
-            qa.columns =['Requête','Potentiel Gain trafic']
-            qa = qa.sort_values(by=['Potentiel Gain trafic'], ascending=False)
-            st.dataframe(qa)
-
-            #Boutton Download
-            csv = convert_df(qa)
-            st.download_button(
-                label="Download CSV",
-                data=csv,
-                file_name="trafic_potentiel_keywords_filtres.csv",
-                mime="text/csv",
-            )
- 
         affiche_tous_les_keywords = st.checkbox('Afficher les opportunités de trafic sans filtrer', value=True)
         if(affiche_tous_les_keywords):
             #2e tableau avec toutes les opportunités liées à ce KW
@@ -473,6 +437,43 @@ try:
                 mime="text/csv",
             )
 
+
+        #Trafic potentiel par requête
+        filtrer_les_keywords = st.checkbox('Filtrer sur une liste de keywords')
+        if(filtrer_les_keywords):    
+            query_analysables = {}
+            list_keywords = st.text_area('Liste de mots clés à analyser en priorité')
+
+            list_keywords_splited = list_keywords.split('\n')
+            for kw in list_keywords_splited:
+                for index, row in df.iterrows():
+                    diff_trafic = 0
+                    if(row['query'] in [kw]):
+                        position = float(row['position'])
+                        clicks = int(row['clicks'])
+                        impressions = int(row['impressions'])
+                        diff_trafic = round(impressions * ctr_by_position["1->2"] / 100 - clicks)
+                        if(position < 2):
+                            query_analysables[row['query']] = 0
+                        elif diff_trafic < 0:
+                            query_analysables[row['query']] = 0
+                        else:
+                            query_analysables[row['query']] = diff_trafic
+
+            qa = pd.DataFrame(list(query_analysables.items()))
+            qa.columns =['Requête','Potentiel Gain trafic']
+            qa = qa.sort_values(by=['Potentiel Gain trafic'], ascending=False)
+            st.dataframe(qa)
+
+            #Boutton Download
+            csv = convert_df(qa)
+            st.download_button(
+                label="Download CSV",
+                data=csv,
+                file_name="trafic_potentiel_keywords_filtres.csv",
+                mime="text/csv",
+            )
+ 
         #CTR par position - Graphique
         st.header("Graphique et Tableau CTR par position")
         afficher_stats_ctr = st.checkbox('Afficher les stats des CTR par position')
